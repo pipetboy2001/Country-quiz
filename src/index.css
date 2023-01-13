@@ -5,6 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* añadir background */
+  background-image: url(./Assests/background.png);
 }
 
 code {
