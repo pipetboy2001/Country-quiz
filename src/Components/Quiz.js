@@ -1,60 +1,77 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { DataContext } from './DataProvider';
 import axios from 'axios';
 import '../Styles/Quiz.css'
-
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
 const Quiz = () => {
-    const countryData = useContext(DataContext);
-    //estado del quiz completado o no completado?
+    const [isDataLoaded, setIsDataLoaded] = useState(false);
+    const [CountryData, setCountryData] = useState([]);
     const [quizCompleted, setQuizCompleted] = useState(false);
     const [currentQuestion, setCurrentQuestion] = useState({});
-    const [CountryData, setCountryData] = useState(countryData);
     const [answer, setAnswer] = useState('');
-    // Create state for questions array and score
     const [questions, setQuestions] = useState([]);
     const [score, setScore] = useState(0);
+    const [questionTypeIndex, setQuestionTypeIndex] = useState(0);
 
     useEffect(() => {
-        axios.get('https://restcountries.com/v2/all')
-            .then(response => {
-                console.log(response.data);
-                setCountryData(response.data);
-                generateRandomQuestions();
-            })
-            .catch(error => {
-                console.log(error)
-            });
-    }, []);
+        if (!isDataLoaded) {
+            axios.get('https://restcountries.com/v2/all')
+                .then(response => {
+                    setCountryData(response.data);
+                    setIsDataLoaded(true);
+                })
+                .catch(error => {
+                    console.log(error)
+                });
+        }
+    }, [isDataLoaded]);
 
     function generateRandomQuestions() {
-        // Generar preguntas al azar utilizando los datos de la API
         if (CountryData && CountryData.length) {
+            setQuestions([]);
+            setQuestionTypeIndex(0);
+            setScore(0);
             for (let i = 0; i < 4; i++) {
                 const randomIndex = Math.floor(Math.random() * CountryData.length);
                 const randomCountry = CountryData[randomIndex];
-                const question = {
-                    text: `What is the capital of ${randomCountry.name}?`,
-                    correctAnswer: randomCountry.capital,
-                    options: [randomCountry.capital, randomCountry.altSpellings[1], randomCountry.region, randomCountry.subregion]
+                let question;
+                if (questionTypeIndex === 0) {
+                    question = {
+                        text: `What is the capital of ${randomCountry.name}?`,
+                        correctAnswer: randomCountry.capital,
+                        options: shuffle([randomCountry.capital, randomCountry.altSpellings[1], randomCountry.region, randomCountry.subregion])
+                    }
+                } else if (questionTypeIndex === 1) {
+                    question = {
+                        text: `¿A qué país pertenece esta bandera?`,
+                        img: randomCountry.flag,
+                        correctAnswer: randomCountry.name,
+                        options: shuffle([randomCountry.name, CountryData[(randomIndex + 1) % CountryData.length].name, CountryData[(randomIndex + 2) % CountryData.length].name, CountryData[(randomIndex + 3) % CountryData.length].name])
+                    }
                 }
                 questions.push(question);
+                setQuestionTypeIndex(questionTypeIndex + 1);
+                if (questionTypeIndex === 2) setQuestionTypeIndex(0);
             }
             setQuestions(questions);
             setCurrentQuestion(questions[0]);
         }
-
     }
-    function handleAnswerSelection(answer) {
-        setAnswer(answer);
+
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (
+                i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
     }
 
     function checkAnswer() {
         if (answer === currentQuestion.correctAnswer) {
             setScore(score + 1);
-        } 
+        }
         // Move to next question
         const currentIndex = questions.findIndex(q => q === currentQuestion);
         if (currentIndex + 1 < questions.length) {
@@ -64,14 +81,16 @@ const Quiz = () => {
         }
         setAnswer('');
     }
+
     function restartQuiz() {
-        setQuizCompleted(false);
-        setQuestions([]);
-        setCurrentQuestion({});
-        setAnswer('');
-        setScore(0);
         generateRandomQuestions();
+        setQuizCompleted(false);
     }
+
+    function handleAnswerSelection(answer) {
+        setAnswer(answer);
+    }
+
     return (
         <div>
             <div className='container'>
@@ -79,49 +98,75 @@ const Quiz = () => {
                 <img src='https://raw.githubusercontent.com/pipetboy2001/Country-quiz/0ef5f12a857f8e7b88ccba57851213cee3c6bff6/src/Assests/ContryQuiz.svg' alt="Quiz logo" />
             </div>
 
-        <Card className='Card' style={{ width: '18rem' }}>
-            <Card.Body>
-                <Card.Text>
-                    {!quizCompleted && currentQuestion.text ? (
-                        <div>
-                            <h2 className='Question'>{currentQuestion.text}</h2>
-                            {currentQuestion.options.map((option, index) => (
-                                <ol>
-                                    <li>
-                                        <Button variant="light" className='Answer'
-                                            key={index}
-                                            onClick={() => handleAnswerSelection(option)} >
-                                            {option}
-                                        </Button>
-                                    </li>
-                                </ol>
-                                    
-                                
-                            ))}
-                            <Button variant="warning" onClick={checkAnswer} >Next</Button>
-                        </div>
-                    ) : (
-                        !quizCompleted && (
+            <Card className='Card' style={{ width: '18rem' }}>
+                <Card.Body>
+                    <Card.Text>
+                        {!quizCompleted && currentQuestion.text ? (
                             <div>
-                                <h2>Click for Start</h2>
-                                    <Button variant="primary" size="lg" active onClick={generateRandomQuestions}>
-                                        Start Quiz
-                                    </Button>{' '}
+                                <h2 className='Question'>{currentQuestion.text}</h2>
+                                {questionTypeIndex === 0 ? (
+                                    <div>
+                                        {currentQuestion.options.map((option, index) => (
+                                            <ol>
+                                                <li>
+                                                    <Button
+                                                        key={index}
+                                                        variant='outline-secondary'
+                                                        onClick={() => handleAnswerSelection(option)}
+                                                    >
+                                                        {option}
+                                                    </Button>
+                                                </li>
+                                            </ol>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div>
+                                        <img src={currentQuestion.img} alt='Flag' />
+                                        {currentQuestion.options.map((option, index) => (
+                                            <ol>
+                                                <li>
+                                                    <Button
+                                                        key={index}
+                                                        variant='outline-secondary'
+                                                        onClick={() => handleAnswerSelection(option)}
+                                                    >
+                                                        {option}
+                                                    </Button>
+                                                </li>
+                                            </ol>
+                                        ))}
+                                    </div>
+                                )}
+                                <Button variant='outline-primary' onClick={checkAnswer}>Submit</Button>
                             </div>
-                        )
-                    )}
-                    {quizCompleted && (
-                        <div>
-                                <img className='WinnerImg' src='https://raw.githubusercontent.com/pipetboy2001/Country-quiz/0ef5f12a857f8e7b88ccba57851213cee3c6bff6/src/Assests/Winners.svg' alt="Quiz Completed" />
-                            <h2 className='Results'>Results</h2>
-                            <h5 className='Score'>You got {score} correct answers</h5>
-                            <button className='Restart' onClick={restartQuiz}>Restart Quiz</button>
-                        </div>
-                    )}
-                </Card.Text>
-            </Card.Body>
-        </Card>
+                        ) : (
+                            <div>
+                                {quizCompleted ? (
+                                    <div>
+                                        <img className='WinnerImg' src='https://raw.githubusercontent.com/pipetboy2001/Country-quiz/0ef5f12a857f8e7b88ccba57851213cee3c6bff6/src/Assests/Winners.svg' alt="Quiz Completed" />
+                                        <h2 className='Results'>Results</h2>
+                                        <h5 className='Score'>You got {score} correct answers</h5>
+                                        <button className='Restart' onClick={restartQuiz}>Restart Quiz</button>
+                                    </div>
+                                ) : (
+                                    <div>
+                                        <h2>Click for Start</h2>
+                                        <Button variant="primary" size="lg" active onClick={generateRandomQuestions}>
+                                            Start Quiz
+                                        </Button>{' '}
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                    </Card.Text>
+                </Card.Body>
+            </Card>
         </div>
     )
 }
+
 export default Quiz;
+
+
+
