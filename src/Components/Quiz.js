@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { DataContext } from './DataProvider';
 import axios from 'axios';
+import '../Styles/Quiz.css'
+
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 
 const Quiz = () => {
     const countryData = useContext(DataContext);
@@ -50,9 +54,7 @@ const Quiz = () => {
     function checkAnswer() {
         if (answer === currentQuestion.correctAnswer) {
             setScore(score + 1);
-        } else {
-            alert("Incorrect answer");
-        }
+        } 
         // Move to next question
         const currentIndex = questions.findIndex(q => q === currentQuestion);
         if (currentIndex + 1 < questions.length) {
@@ -71,31 +73,52 @@ const Quiz = () => {
         generateRandomQuestions();
     }
     return (
-        <div className='card'>
-            {!quizCompleted && currentQuestion.text ? (
-                <div>
-                    <h2>{currentQuestion.text}</h2>
-                    {currentQuestion.options.map((option, index) => (
-                        <button key={index} onClick={() => handleAnswerSelection(option)}>
-                            {option}
-                        </button>
-                    ))}
-                    <button onClick={checkAnswer}>Submit</button>
-                </div>
-            ) : (
-                !quizCompleted && (
-                    <div>
-                        <h2>Start Quiz</h2>
-                        <button onClick={generateRandomQuestions}>Start Quiz</button>
-                    </div>
-                )
-            )}
-            {quizCompleted && (
-                <div>
-                    <h2>Quiz Completed! Score: {score}</h2>
-                    <button onClick={restartQuiz}>Restart Quiz</button>
-                </div>
-            )}
+        <div>
+            <div className='container'>
+                <h3 className='title'>CountryQuiz</h3>
+                <img src={require('../')} alt="Quiz logo" />
+            </div>
+
+        <Card className='Card' style={{ width: '18rem' }}>
+            <Card.Body>
+                <Card.Text>
+                    {!quizCompleted && currentQuestion.text ? (
+                        <div>
+                            <h2 className='Question'>{currentQuestion.text}</h2>
+                            {currentQuestion.options.map((option, index) => (
+                                <ol>
+                                    <li>
+                                        <Button variant="light" className='Answer'
+                                            key={index}
+                                            onClick={() => handleAnswerSelection(option)} >
+                                            {option}
+                                        </Button>
+                                    </li>
+                                </ol>
+                                    
+                                
+                            ))}
+                            <Button variant="warning" onClick={checkAnswer} >Next</Button>
+                        </div>
+                    ) : (
+                        !quizCompleted && (
+                            <div>
+                                <h2>Click for Start</h2>
+                                    <Button variant="primary" size="lg" active onClick={generateRandomQuestions}>
+                                        Start Quiz
+                                    </Button>{' '}
+                            </div>
+                        )
+                    )}
+                    {quizCompleted && (
+                        <div>
+                            <h2>Quiz Completed! Score: {score}</h2>
+                            <button onClick={restartQuiz}>Restart Quiz</button>
+                        </div>
+                    )}
+                </Card.Text>
+            </Card.Body>
+        </Card>
         </div>
     )
 }
