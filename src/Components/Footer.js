@@ -5,7 +5,7 @@ export const Footer = () => {
     return (
         <div className="footer">
             <p>
-                🖤Creado por <a href='https://github.com/pipetboy2001'>Pipetboy</a>🖤
+                🖤Created by <a href='https://github.com/pipetboy2001'>Pipetboy</a>🖤
             </p>
         </div>
     );
