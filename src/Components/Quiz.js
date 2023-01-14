@@ -24,15 +24,19 @@ const Quiz = () => {
 
     function generateRandomQuestion() {
         // Generar pregunta al azar utilizando los datos de la API
-        const randomIndex = Math.floor(Math.random() * CountryData.length);
-        const randomCountry = CountryData[randomIndex];
-        const question = {
-            text: `What is the capital of ${randomCountry.name.common}?`,
-            correctAnswer: randomCountry.capital[0],
-            options: [randomCountry.capital[0], randomCountry.altSpellings[1], randomCountry.region, randomCountry.subregion]
+        if (CountryData && CountryData.length) {
+            const randomIndex = Math.floor(Math.random() * CountryData.length);
+            const randomCountry = CountryData[randomIndex];
+            const question = {
+                text: `What is the capital of ${randomCountry.name}?`,
+                correctAnswer: randomCountry.capital[0],
+
+                options: [randomCountry.capital[0], randomCountry.altSpellings[1], randomCountry.region, randomCountry.subregion]
+            }
+            setCurrentQuestion(question);
+            console.log(question);
         }
-        setCurrentQuestion(question);
-        console.log(question);
+
     }
     function handleAnswerSelection(answer) {
         setAnswer(answer);
@@ -87,11 +91,6 @@ const Quiz = () => {
                         <h2>Quiz Completed!</h2>
                     </div>
                 )
-            )}
-            {!quizCompleted && !currentQuestion.text && (
-                <div>
-                    <h2>Loading questions...</h2>
-                </div>
             )}
         </div>
     )
