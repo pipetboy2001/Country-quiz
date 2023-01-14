@@ -29,9 +29,11 @@ const Quiz = () => {
             const randomCountry = CountryData[randomIndex];
             const question = {
                 text: `What is the capital of ${randomCountry.name}?`,
-                correctAnswer: randomCountry.capital[0],
+                correctAnswer: randomCountry.capital
+,
 
-                options: [randomCountry.capital[0], randomCountry.altSpellings[1], randomCountry.region, randomCountry.subregion]
+                options: [randomCountry.capital
+, randomCountry.altSpellings[1], randomCountry.region, randomCountry.subregion]
             }
             setCurrentQuestion(question);
             console.log(question);
