@@ -76,7 +76,7 @@ const Quiz = () => {
         <div>
             <div className='container'>
                 <h3 className='title'>CountryQuiz</h3>
-                <img src={require('../')} alt="Quiz logo" />
+                <img src='https://raw.githubusercontent.com/pipetboy2001/Country-quiz/0ef5f12a857f8e7b88ccba57851213cee3c6bff6/src/Assests/ContryQuiz.svg' alt="Quiz logo" />
             </div>
 
         <Card className='Card' style={{ width: '18rem' }}>
@@ -112,8 +112,10 @@ const Quiz = () => {
                     )}
                     {quizCompleted && (
                         <div>
-                            <h2>Quiz Completed! Score: {score}</h2>
-                            <button onClick={restartQuiz}>Restart Quiz</button>
+                                <img className='WinnerImg' src='https://raw.githubusercontent.com/pipetboy2001/Country-quiz/0ef5f12a857f8e7b88ccba57851213cee3c6bff6/src/Assests/Winners.svg' alt="Quiz Completed" />
+                            <h2 className='Results'>Results</h2>
+                            <h5 className='Score'>You got {score} correct answers</h5>
+                            <button className='Restart' onClick={restartQuiz}>Restart Quiz</button>
                         </div>
                     )}
                 </Card.Text>
