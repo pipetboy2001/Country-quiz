@@ -72,26 +72,7 @@ const Quiz = () => {
     }
     return (
         <div className='card'>
-            <div>
-                <h2>Start Quiz</h2>
-                <button onClick={() => {
-                    if (!quizCompleted) {
-                        axios.get('https://restcountries.com/v2/all')
-                            .then(
-                                response => {
-                                    console.log(response.data);
-                                    setCountryData(response.data);
-                                    generateRandomQuestions();
-                                })
-                            .catch(error => {
-                                console.log(error)
-                            });
-                    } else {
-                        restartQuiz();
-                    }
-                }}>Start/Restart Quiz</button>
-            </div>
-            {CountryData.length && !quizCompleted && currentQuestion.text ? (
+            {!quizCompleted && currentQuestion.text ? (
                 <div>
                     <h2>{currentQuestion.text}</h2>
                     {currentQuestion.options.map((option, index) => (
@@ -102,11 +83,18 @@ const Quiz = () => {
                     <button onClick={checkAnswer}>Submit</button>
                 </div>
             ) : (
-                quizCompleted && (
+                !quizCompleted && (
                     <div>
-                        <h2>Quiz Completed! Score: {score}</h2>
+                        <h2>Start Quiz</h2>
+                        <button onClick={generateRandomQuestions}>Start Quiz</button>
                     </div>
                 )
+            )}
+            {quizCompleted && (
+                <div>
+                    <h2>Quiz Completed! Score: {score}</h2>
+                    <button onClick={restartQuiz}>Restart Quiz</button>
+                </div>
             )}
         </div>
     )
