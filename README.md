@@ -1,70 +1,54 @@
-# Getting Started with Create React App
+<div align="center">
+      <h1> <img src="/public/logo192.png" width="80px"><br/>Country Quiz </h1></div>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<div align="center">
+   solución para el  challenge de un quiz de paises que pregunta por la bandera y la capital <a href="http://devchallenges.io" target="_blank">Devchallenges.io</a>.
+</div>
 
-## Available Scripts
+## Descripción
 
-In the project directory, you can run:
+<div align="center">
+  <h3>
+    <a href="https://quiz-pipetboy.vercel.app/">
+      Demo
+    </a>
+    <span> | </span>
+    <a href="https://devchallenges.io/challenges/Bu3G2irnaXmfwQ8sZkw8">
+      Challenge
+    </a>
+  </h3>
+</div>
 
-### `npm start`
+![screenshot](public/Page.png)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Built With
+ ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white) ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) ![Vercel](https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white)
+      
 
-### `npm test`
+## Características
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+[x]  Existencia de 2 tipos de preguntas
+[x]  Puedes seleccionar una respuesta 
+[x]  Puedes ver si la respuesta es correcta o incorrecta 
+[x]  Puedes seguir si has contestado a una nueva pregunta
+[x]  Puedes ver si te has equivocado seleccionado
+[x]  Puedes ver tu puntuación al final del juego y volver a intentar
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Como Instalar de manera Local
+Para clonar y ejecutar esta aplicación, necesitará [Git](https://git-scm.com) y [Node.js](https://nodejs.org/en/download/) (que viene con [ npm](http://npmjs.com)) instalado en su computadora. Desde su línea de comando:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+# Clone this repository
+$ git clone https://github.com/pipetboy2001/Country-quiz
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# Install dependencies
+$ npm install
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# Run the app
+$ npm start
+```
+## Mi experencia en este challange
+Nuevamente otro desafio donde tuve que buscar por mi cuenta otra API que hiciera algo similar a la que me entregban en este caso entregaban la API de https://restcountries.eu/ , la cual no esta disponible por lo que buscando encontre https://restcountries.com/v2/all que investigando es solo un error de devchallenges al no colocar la API correcta 
+Por otro lado este desafio tuvo mas complicaciones pero a la vez ayudo mucho el realizar el [Proyecto de botones](https://github.com/pipetboy2001/Boton-Generador) ,ya que aqui hice un boton para que cambiara de color segun si era la respuesta correcta o no lo es ,lo cual es algo ya hecho anteriormente de esta pila de desafios
