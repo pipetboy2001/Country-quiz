@@ -6,8 +6,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* añadir background */
-  background-image: url('https://github.com/pipetboy2001/Country-quiz/blob/main/src/Assests/background.png?raw=true');
-    background-size: cover;
+  background-image: url('./Assests/background.png');
+  background-size: cover;
 }
 
 code {

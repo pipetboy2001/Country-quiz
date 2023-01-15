@@ -1,5 +1,5 @@
 /* para la seccion de preguntas */
-ol{
+ul{
     list-style-type: none;
     padding: 0;
 }
@@ -12,6 +12,7 @@ ol{
     display: flex;
     align-items: center;
     margin: auto;
+    margin-bottom: 2%;
 }
 
 .Answer{
@@ -29,11 +30,15 @@ ol{
     transition: 0.3s;
 
 }
-
 .Answer:hover{
     background-color: #f9a826;
     color: #fff;
 }
+.Answer.active {
+    background-color: blue;
+    color: white;
+}
+
 .container {
     display: flex;
     flex-direction: row;
@@ -53,13 +58,19 @@ ol{
     text-align: center;
 }
 
-img {
+.imgTitle {
     width: 10%;
     height: auto;
     object-fit: cover;
     border-radius: 10px;
 }
 
+.Flag{
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
+}
 
 .Question{
     font-size: 1.5rem;
@@ -112,4 +123,14 @@ img {
     font-weight: 600;
     margin: 0;
     padding: 0;
+}
+
+.Subimit{
+    background-color: white;
+    border-radius: 10px;
+}
+
+.Subimit:hover{
+    background-color: #abb800;
+    color: #fff;
 }
