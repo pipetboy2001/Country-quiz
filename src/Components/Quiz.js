@@ -110,6 +110,7 @@ const Quiz = () => {
                             {questions[currentQuestionIndex].options.map((option, index) => (
                                 <li key={index}>
                                     <OptionButton
+                                        className='Answer'
                                         key={index}
                                         option={option}
                                         onClick={handleAnswerSelection}
