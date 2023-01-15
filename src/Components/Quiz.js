@@ -50,7 +50,7 @@ const Quiz = () => {
             }
             questions.push(question);
             question = {
-                text: `¿A qué país pertenece esta bandera?`,
+                text: `¿What country does this flag belong to?`,
                 img: randomCountry.flag,
                 correctAnswer: randomCountry.name,
                 options: shuffle([randomCountry.name, CountryData[(randomIndex + 1) % CountryData.length].name, CountryData[(randomIndex + 2) % CountryData.length].name, CountryData[(randomIndex + 3) % CountryData.length].name])
