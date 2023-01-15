@@ -39,7 +39,8 @@ const Quiz = () => {
     function generateRandomQuestions() {
         setQuestions([]);
         setScore(0);
-        for (let i = 0; i < 2; i++) {
+        console.log("SetScore: " +  score);
+        for (let i = 0; i < 4; i++) {
             const randomIndex = Math.floor(Math.random() * CountryData.length);
             const randomCountry = CountryData[randomIndex];
             let question;
@@ -73,10 +74,13 @@ const Quiz = () => {
     function checkAnswer() {
         setIsCorrect(selectedOption === questions[currentQuestionIndex].correctAnswer);
         if (selectedOption === questions[currentQuestionIndex].correctAnswer) {
-            setScore(score + 1);
+            setScore((score + 1));
+            console.log('Correcto');
+        }else{
+            console.log('Incorrecto la respuesta era ' + questions[currentQuestionIndex].correctAnswer);
         }
         // Move to next question
-        if (currentQuestionIndex + 1 < questions.length) {
+        if (currentQuestionIndex + 1 < 4) {
             setSelectedOption(null);
             setCurrentQuestionIndex(currentQuestionIndex + 1);
         }
@@ -136,7 +140,8 @@ const Quiz = () => {
                     <Card.Body>
                         <img className='WinnerImg' src='https://raw.githubusercontent.com/pipetboy2001/Country-quiz/0ef5f12a857f8e7b88ccba57851213cee3c6bff6/src/Assests/Winners.svg' alt="Quiz Completed" />
                         <h2 className='Results'>Results</h2>
-                        <h5 className='Score'>You got {score}/{questions.length} correct answers</h5>
+                        <h5 className='Score'>You got {score} correct answers</h5>
+
 
                         <Button className='Restart' onClick={restartQuiz}>Restart Quiz</Button>
                     </Card.Body>
