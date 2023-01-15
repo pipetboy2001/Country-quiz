@@ -13,8 +13,9 @@ const Quiz = () => {
     const [questions, setQuestions] = useState([]);
     const [score, setScore] = useState(0);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-    const [isCorrect, setIsCorrect] = useState(null);
+    const [isCorrecta, setIsCorrect] = useState(null);
     const [selectedOption, setSelectedOption] = useState(null);
+    const [correct, setCorrect] = useState(0);
 
 
     useEffect(() => {
@@ -76,6 +77,7 @@ const Quiz = () => {
         if (selectedOption === questions[currentQuestionIndex].correctAnswer) {
             setScore((score + 1));
             console.log('Correcto');
+
         }else{
             console.log('Incorrecto la respuesta era ' + questions[currentQuestionIndex].correctAnswer);
         }
@@ -99,6 +101,17 @@ const Quiz = () => {
         setSelectedOption(answer);
     }
 
+    //funcion que revisara si lo que es seleccionado es correcto o no
+    function isCorrect() {
+        if (selectedOption === questions[currentQuestionIndex].correctAnswer) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    
+
     return (
         <div>
             <div className='container'>
@@ -119,9 +132,10 @@ const Quiz = () => {
                                         option={option}
                                         onClick={handleAnswerSelection}
                                         isSelected={selectedOption === option}
-                                        isCorrect={isCorrect}
+                                        isCorrect={selectedOption === questions[currentQuestionIndex].correctAnswer }
+                                        
+                                        
                                     />
-
                                 </li>
                             ))}
                         </ul>
