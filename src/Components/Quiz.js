@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import OptionButton from './OptionButton'
-import { Button } from 'react-bootstrap'
-import { Card } from 'react-bootstrap'
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import '../Styles/Quiz.css'
 
