@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import OptionButton from './OptionButton'
 import { Button } from 'react-bootstrap'
 import { Card } from 'react-bootstrap'
 import axios from 'axios';
@@ -12,6 +13,9 @@ const Quiz = () => {
     const [questions, setQuestions] = useState([]);
     const [score, setScore] = useState(0);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    const [isCorrect, setIsCorrect] = useState(null);
+    const [selectedOption, setSelectedOption] = useState(null);
+
 
     useEffect(() => {
         if (!isDataLoaded) {
@@ -67,24 +71,28 @@ const Quiz = () => {
     }
 
     function checkAnswer() {
-        if (answer === questions[currentQuestionIndex].correctAnswer) {
+        setIsCorrect(selectedOption === questions[currentQuestionIndex].correctAnswer);
+        if (selectedOption === questions[currentQuestionIndex].correctAnswer) {
             setScore(score + 1);
         }
         // Move to next question
         if (currentQuestionIndex + 1 < questions.length) {
+            setSelectedOption(null);
             setCurrentQuestionIndex(currentQuestionIndex + 1);
-        } else {
+        }
+        else {
             setQuizCompleted(true);
         }
-        setAnswer('');
     }
+
     function restartQuiz() {
         generateRandomQuestions();
         setQuizCompleted(false);
     }
 
     function handleAnswerSelection(answer) {
-        setAnswer(answer);
+        setIsCorrect(selectedOption === questions[currentQuestionIndex].correctAnswer);
+        setSelectedOption(answer);
     }
 
     return (
@@ -93,36 +101,47 @@ const Quiz = () => {
                 <h3 className='title'>CountryQuiz</h3>
                 <img className='imgTitle' src='https://raw.githubusercontent.com/pipetboy2001/Country-quiz/0ef5f12a857f8e7b88ccba57851213cee3c6bff6/src/Assests/ContryQuiz.svg' alt="Quiz logo" />
             </div>
-                {!quizCompleted && questions.length > 0 &&
-                    <Card className='Card' style={{ width: '18rem' }}>
-                        <Card.Body>
-                            <p className='Question'>{questions[currentQuestionIndex].text}</p>
-                            {questions[currentQuestionIndex].img && <img className='Flag' src={questions[currentQuestionIndex].img} alt='Flag' />}
-                            <ul>
-                                {questions[currentQuestionIndex].options.map((option, index) => (
-                                    <li key={index}>
-                                        <Button variant='outline-secondary' className='Answer' onClick={() => handleAnswerSelection(option)}>{option}</Button>
-                                    </li>
-                                ))}
-                            </ul>
-                            <Button variant='outline-primary' className='Subimit' onClick={checkAnswer}>Check Answer</Button>
-                        </Card.Body>
-                    </Card>
-                }
-                {quizCompleted &&
-                    <Card className='Card' style={{ width: '18rem' }}>
-                        <Card.Body>
-                            <img className='WinnerImg' src='https://raw.githubusercontent.com/pipetboy2001/Country-quiz/0ef5f12a857f8e7b88ccba57851213cee3c6bff6/src/Assests/Winners.svg' alt="Quiz Completed" />
-                            <h2 className='Results'>Results</h2>
-                            <h5 className='Score'>You got {score}/{questions.length} correct answers</h5>
+            {!quizCompleted && questions.length > 0 &&
+                <Card className='Card' style={{ width: '18rem' }}>
+                    <Card.Body>
+                        <p className='Question'>{questions[currentQuestionIndex].text}</p>
+                        {questions[currentQuestionIndex].img && <img className='Flag' src={questions[currentQuestionIndex].img} alt='Flag' />}
+                        <ul>
+                            {questions[currentQuestionIndex].options.map((option, index) => (
+                                <li key={index}>
+                                    <OptionButton
+                                        key={index}
+                                        option={option}
+                                        onClick={handleAnswerSelection}
+                                        isSelected={selectedOption === option}
+                                        isCorrect={isCorrect}
+                                    />
 
-                            <Button className='Restart' onClick={restartQuiz}>Restart Quiz</Button>
-                        </Card.Body>
-                    </Card>
-                }
-            </div>
-        
+                                </li>
+                            ))}
+                        </ul>
+                        <Button variant='outline-primary' className='Subimit' onClick={() => {
+                            if (selectedOption) {
+                                checkAnswer();
+                            }
+                        }}>Check Answer</Button>
+
+
+                    </Card.Body>
+                </Card>
+            }
+            {quizCompleted &&
+                <Card className='Card' style={{ width: '18rem' }}>
+                    <Card.Body>
+                        <img className='WinnerImg' src='https://raw.githubusercontent.com/pipetboy2001/Country-quiz/0ef5f12a857f8e7b88ccba57851213cee3c6bff6/src/Assests/Winners.svg' alt="Quiz Completed" />
+                        <h2 className='Results'>Results</h2>
+                        <h5 className='Score'>You got {score}/{questions.length} correct answers</h5>
+
+                        <Button className='Restart' onClick={restartQuiz}>Restart Quiz</Button>
+                    </Card.Body>
+                </Card>
+            }
+        </div>
     )
-
 }
 export default Quiz
