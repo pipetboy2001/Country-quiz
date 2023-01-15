@@ -16,6 +16,7 @@ const Quiz = () => {
     const [isCorrecta, setIsCorrect] = useState(null);
     const [selectedOption, setSelectedOption] = useState(null);
     const [correct, setCorrect] = useState(0);
+    const [quizStarted, setQuizStarted] = useState(false);
 
 
     useEffect(() => {
@@ -110,15 +111,34 @@ const Quiz = () => {
         }
     }
 
-    
+    //funcion para cargar la pagina denuevo
+    function Refrescar() {
+        window.location.reload();
+    }
 
     return (
         <div>
-            <div className='container'>
+            <div className='container' onClick={Refrescar}>
                 <h3 className='title'>CountryQuiz</h3>
                 <img className='imgTitle' src='https://raw.githubusercontent.com/pipetboy2001/Country-quiz/0ef5f12a857f8e7b88ccba57851213cee3c6bff6/src/Assests/ContryQuiz.svg' alt="Quiz logo" />
             </div>
-            {!quizCompleted && questions.length > 0 &&
+            {   
+                !quizStarted && !quizCompleted &&
+                <Card className='Card' style={{ width: '18rem' }}>
+                    <Card.Body>
+                        <Card.Title>¿Are you ready?</Card.Title>
+                        <Card.Text>
+                            ¿Do you know the capitals of the countries of the world?
+                        </Card.Text>
+                        <Button variant="primary" onClick={() => setQuizStarted(true)}>Start</Button>
+                    </Card.Body>
+
+                </Card>
+                    
+            }
+
+
+            {!quizCompleted && quizStarted && questions.length > 0 &&
                 <Card className='Card' style={{ width: '18rem' }}>
                     <Card.Body>
                         <p className='Question'>{questions[currentQuestionIndex].text}</p>
@@ -133,8 +153,6 @@ const Quiz = () => {
                                         onClick={handleAnswerSelection}
                                         isSelected={selectedOption === option}
                                         isCorrect={selectedOption === questions[currentQuestionIndex].correctAnswer }
-                                        
-                                        
                                     />
                                 </li>
                             ))}
@@ -144,8 +162,6 @@ const Quiz = () => {
                                 checkAnswer();
                             }
                         }}>Check Answer</Button>
-
-
                     </Card.Body>
                 </Card>
             }
@@ -155,8 +171,6 @@ const Quiz = () => {
                         <img className='WinnerImg' src='https://raw.githubusercontent.com/pipetboy2001/Country-quiz/0ef5f12a857f8e7b88ccba57851213cee3c6bff6/src/Assests/Winners.svg' alt="Quiz Completed" />
                         <h2 className='Results'>Results</h2>
                         <h5 className='Score'>You got {score} correct answers</h5>
-
-
                         <Button className='Restart' onClick={restartQuiz}>Restart Quiz</Button>
                     </Card.Body>
                 </Card>
