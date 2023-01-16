@@ -35,10 +35,18 @@ const Quiz = () => {
         }
     }, [CountryData])
 
+    /**
+    *@function
+    *@param {function} - A callback function that will be executed after the component renders.
+    *@param {Array} - A dependency array that tells React when to re-run the effect.
+    *This function generates random questions, it initializes the questions array and the score to 0, then using a loop it randomly select a country from the CountryData array and creates an object question with different parameters like the text, correctAnswer, options and an image.
+    Then it shuffles the options and pushes the question object to the questions array.
+    Finally, it sets the current question index to 0.
+    */
     function generateRandomQuestions() {
         setQuestions([]);
         setScore(0);
-        console.log("SetScore: " +  score);
+        console.log("SetScore: " + score);
         for (let i = 0; i < 4; i++) {
             const randomIndex = Math.floor(Math.random() * CountryData.length);
             const randomCountry = CountryData[randomIndex];
@@ -61,6 +69,13 @@ const Quiz = () => {
         setCurrentQuestionIndex(0);
     }
 
+    /**
+    *@function shuffle
+    *@param {Array} array - The array that will be shuffled
+    This function takes an array as a parameter and using a for loop it shuffles the elements of the array. 
+    It uses the Fisher-Yates shuffle algorithm to randomly rearrange the elements 
+    of the array and then returns the shuffled array.
+    */
     function shuffle(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (
@@ -70,11 +85,17 @@ const Quiz = () => {
         return array;
     }
 
+    /**
+    *@function checkAnswer
+    This function check if the selected option is the correct answer,
+    if so it increases the score by 1, and then it checks if the current question is the last one,
+     if not it sets the selected option to null and move to the next question, 
+     otherwise it sets the quizCompleted to true.
+    */
     function checkAnswer() {
         setIsCorrect(selectedOption === questions[currentQuestionIndex].correctAnswer);
         if (selectedOption === questions[currentQuestionIndex].correctAnswer) {
             setScore((score + 1));
-
         }
         // Move to next question
         if (currentQuestionIndex + 1 < 4) {
@@ -86,11 +107,23 @@ const Quiz = () => {
         }
     }
 
+    /**
+     * @function restartQuiz
+     * This function restarts the quiz by generating new random questions 
+     * and setting the quizCompleted state to false.
+     */
     function restartQuiz() {
         generateRandomQuestions();
         setQuizCompleted(false);
     }
+    /**
 
+    @function handleAnswerSelection
+    @param {string} answer - The selected answer
+    This function handles the answer selection by the user,
+    it sets isCorrect to true if the selected answer is the correct one 
+    and sets the selectedOption state to the selected answer.
+    */
     function handleAnswerSelection(answer) {
         setIsCorrect(selectedOption === questions[currentQuestionIndex].correctAnswer);
         setSelectedOption(answer);
@@ -106,7 +139,7 @@ const Quiz = () => {
                 <h3 className='title'>CountryQuiz</h3>
                 <img className='imgTitle' src='https://raw.githubusercontent.com/pipetboy2001/Country-quiz/0ef5f12a857f8e7b88ccba57851213cee3c6bff6/src/Assests/ContryQuiz.svg' alt="Quiz logo" />
             </div>
-            {   
+            {
                 !quizStarted && !quizCompleted &&
                 <Card className='Card' style={{ width: '18rem' }}>
                     <Card.Body>
@@ -118,7 +151,7 @@ const Quiz = () => {
                     </Card.Body>
 
                 </Card>
-                    
+
             }
 
             {quizStarted && !quizCompleted && questions.length === 0 &&
@@ -144,7 +177,7 @@ const Quiz = () => {
                                         option={option}
                                         onClick={handleAnswerSelection}
                                         isSelected={selectedOption === option}
-                                        isCorrect={selectedOption === questions[currentQuestionIndex].correctAnswer }
+                                        isCorrect={selectedOption === questions[currentQuestionIndex].correctAnswer}
                                     />
                                 </li>
                             ))}
