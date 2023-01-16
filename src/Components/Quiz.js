@@ -158,6 +158,10 @@ const Quiz = () => {
                 <Card className='Card' style={{ width: '18rem' }}>
                     <Card.Body>
                         <Card.Title>Loading...</Card.Title>
+                        <h5>does not load? reload and try again</h5>
+                        <Button variant="primary" onClick={Refrescar}>
+                            Reload
+                        </Button>
                     </Card.Body>
                 </Card>
             }
