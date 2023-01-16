@@ -9,15 +9,12 @@ const Quiz = () => {
     const [isDataLoaded, setIsDataLoaded] = useState(false);
     const [CountryData, setCountryData] = useState([]);
     const [quizCompleted, setQuizCompleted] = useState(false);
-    const [answer, setAnswer] = useState('');
     const [questions, setQuestions] = useState([]);
     const [score, setScore] = useState(0);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [isCorrecta, setIsCorrect] = useState(null);
     const [selectedOption, setSelectedOption] = useState(null);
-    const [correct, setCorrect] = useState(0);
     const [quizStarted, setQuizStarted] = useState(false);
-
 
     useEffect(() => {
         if (!isDataLoaded) {
@@ -77,10 +74,7 @@ const Quiz = () => {
         setIsCorrect(selectedOption === questions[currentQuestionIndex].correctAnswer);
         if (selectedOption === questions[currentQuestionIndex].correctAnswer) {
             setScore((score + 1));
-            console.log('Correcto');
 
-        }else{
-            console.log('Incorrecto la respuesta era ' + questions[currentQuestionIndex].correctAnswer);
         }
         // Move to next question
         if (currentQuestionIndex + 1 < 4) {
@@ -102,16 +96,6 @@ const Quiz = () => {
         setSelectedOption(answer);
     }
 
-    //funcion que revisara si lo que es seleccionado es correcto o no
-    function isCorrect() {
-        if (selectedOption === questions[currentQuestionIndex].correctAnswer) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    //funcion para cargar la pagina denuevo
     function Refrescar() {
         window.location.reload();
     }
@@ -135,6 +119,14 @@ const Quiz = () => {
 
                 </Card>
                     
+            }
+
+            {quizStarted && !quizCompleted && questions.length === 0 &&
+                <Card className='Card' style={{ width: '18rem' }}>
+                    <Card.Body>
+                        <Card.Title>Loading...</Card.Title>
+                    </Card.Body>
+                </Card>
             }
 
 
